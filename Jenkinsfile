@@ -4,8 +4,8 @@ pipeline {
         string(defaultValue: 'default', name: 'skip_checks', trim: false)
         string(defaultValue: 'default', name: 'enable_checks', trim: false)
         string(defaultValue: 'false', name: 'hide_diff', trim: true)
-        string(defaultValue: 'false', name: 'continue_on_error', trim: true)
-        string(defaultValue: '', name: 'kubernetes_manifest', trim: false)
+        string(defaultValue: 'true', name: 'continue_on_error', trim: true)
+        string(defaultValue: 'kubernetes-sample-manifest.yaml', name: 'kubernetes_manifest', trim: false)
     }
     environment {
     CHKK_ACCESS_TOKEN = credentials("CHKK_ACCESS_TOKEN")
