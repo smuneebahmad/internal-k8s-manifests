@@ -13,3 +13,4 @@ jobs:
               kubernetes-manifest: "gitlab-resource.yaml"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
+              run-checks: "CHKK-K8S-27,CHKK-K8S-28"
