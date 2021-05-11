@@ -10,6 +10,6 @@ jobs:
     steps:
         - checkout
         - chkk-orb/scan:
-              kubernetes-manifest: "kubernetes-manifest.yaml"
+              kubernetes-manifest: "gitlab-resource.yaml"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
