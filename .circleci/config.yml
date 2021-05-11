@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  chkk-orb: muneeb131/checkorb@dev:alpha
+  chkk-orb: muneeb131/checkorb@0.0.1
 
 jobs:
   build:
@@ -13,4 +13,4 @@ jobs:
               kubernetes-manifest: "kubernetes-sample-manifest.yaml"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
-              run-checks: "CHKK-K8S-27,CHKK-K8S-28"
+              skip-checks: "CHKK-K8S-27,CHKK-K8S-28"
