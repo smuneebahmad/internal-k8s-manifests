@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  chkk-orb: default/chkk-orb@1.0.0
+  chkk-orb: muneeb131/checkorb@dev:alpha
   orb-tools: circleci/orb-tools@10.0
   bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
@@ -31,4 +31,7 @@ jobs:
       # "greet" is a sample command packaged with this orb config.
       # This sample integration test will run as long as the greet command exists. Once you remove the greet command you should remove this line.
       # Push new changes first, before adding new tests to your config.
-      - test-chkk-orb/scan
+      - chkk-orb/scan
+          kubernetes-manifest: "kubernetes-manifest.yaml"
+          chkk-access-token: $CHKK_ACCESS_TOKEN
+          continue-on-error: true
