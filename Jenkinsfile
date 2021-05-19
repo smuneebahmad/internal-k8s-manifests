@@ -15,7 +15,7 @@ pipeline {
         stage("Chkk") {
             steps {
                sh '''#!/bin/bash
-               curl -Lo chkk https://downloads.chkk.dev/v0.0.8/chkk-darwin-amd64;
+               curl -Lo chkk https://downloads.chkk.dev/v0.0.8-a/chkk-darwin-amd64;
                export CHKK_ACCESS_TOKEN=$CHKK_ACCESS_TOKEN;
                chmod +x chkk;
                ./chkk -f ${kubernetes_manifest}  -r ${enable_checks} -s ${skip_checks} --show-diff=${show_diff} --continue-on-error=${continue_on_error} --check-type=${check_type}
