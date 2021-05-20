@@ -1,0 +1,25 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: chkk
+spec:
+  version: v0.0.1
+  shortDescription: Catch reliability risks in your Kubernetes manifests and Helm charts
+  description: |
+    kubectl-chkk plugin scans your Kubernetes manifests and Helm charts for reliability risks.
+  homepage: https://github.com/chkk-io/kubectl-chkk
+  platforms:
+  - uri: https://downloads.chkk.dev/v0.0.1/chkk-darwin-amd64.zip
+    sha256: b8228f1f1441bfdfd66e225231d0701436ccc340a35b5f19e9368bfc2eb67ea9
+    bin: chkk-darwin-amd64
+    selector:
+      matchLabels:
+        os: darwin
+        arch: amd64
+  - uri: https://downloads.chkk.dev/v0.0.1/chkk-linux-amd64.zip
+    sha256: 6a7463e8a1818502e847dcb4859a1579c87528db5e153daf335e48432d34b336
+    bin: chkk-linux-amd64
+    selector:
+      matchLabels:
+        os: linux
+        arch: amd64
