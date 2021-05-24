@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  chkk-orb: chkk/k8s@dev:alpha
+  chkk-orb: chkk/k8s@dev:beta
 
 jobs:
   build:
