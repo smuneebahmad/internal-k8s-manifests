@@ -1,8 +1,7 @@
 version: 2.1
 
 orbs:
-#   chkk-orb: chkk/k8s@dev:beta
-  chkk-orb: muneeb131/butterflyorb@1.0.0
+    chkk-orb: chkk/k8s@dev:beta
 
 jobs:
   build:
