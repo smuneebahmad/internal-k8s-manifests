@@ -14,3 +14,8 @@ jobs:
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: true
+        - chkk-orb/scan_file:
+              kubernetes-manifest: "kubernetes-sample-manifest.yaml"
+              chkk-access-token: $CHKK_ACCESS_TOKEN
+              continue-on-error: true
+              show-diff: true
