@@ -19,9 +19,4 @@ jobs:
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: false
-        - chkk-orb/scan_chart:
-              helm-chart: "coredns/coredns"
-              chkk-access-token: $CHKK_ACCESS_TOKEN
-              continue-on-error: true
-              show-diff: true
-              args: "--set image.tag=1.8.9"
+       
