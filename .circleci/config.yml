@@ -9,7 +9,7 @@ jobs:
       - image: cimg/base:stable
     steps:
         - checkout
-        - chkk-orb/scanDirectory:
+        - chkk-orb/directory:
               kubernetes-directory: "samples/"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
