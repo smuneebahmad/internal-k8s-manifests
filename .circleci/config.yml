@@ -24,4 +24,4 @@ jobs:
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: true
-              args: "--set image.tag=1.8.3"
+              args: "--set image.tag=1.8.9"
