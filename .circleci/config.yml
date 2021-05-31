@@ -19,4 +19,9 @@ jobs:
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: false
+        - chkk-orb/scan_chart:
+              helm-chart: "bitnami/magento"
+              chkk-access-token: $CHKK_ACCESS_TOKEN
+              continue-on-error: true
+              show-diff: false
        
