@@ -23,5 +23,5 @@ jobs:
               helm-chart: "bitnami/magento"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
-              show-diff: false
+              show-diff: true
        
