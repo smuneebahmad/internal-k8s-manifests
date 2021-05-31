@@ -24,5 +24,6 @@ jobs:
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: true
+              chart-parameters: "--set filterText=ChampionsLeague"
        
        
