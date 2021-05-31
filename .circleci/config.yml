@@ -21,7 +21,7 @@ jobs:
               show-diff: true
         - chkk-orb/scan_chart:
               helm-chart: "helm-charts/twitter-sentiment/"
-              helm-version: "v2"
+              helm-version: "v3"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: true
