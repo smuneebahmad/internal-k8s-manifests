@@ -18,13 +18,13 @@ jobs:
               k8s-manifest: "kubernetes-sample-manifest.yaml"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
-              show-diff: true
+              show-diff: false
         - chkk-orb/scan_chart:
               helm-chart: "helm-charts/twitter-sentiment/"
               helm-version: "v3"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: true
-              chart-parameters: "--set filterText=ChampionsLeague --set resourceGroup=Euro2024"
+              chart-parameters: "--set filterText=ChampionsLeague --set resourceGroup=Euro2021"
        
        
