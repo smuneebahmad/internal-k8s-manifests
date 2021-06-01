@@ -23,7 +23,7 @@ jobs:
               helm-chart: "helm-charts/twitter-sentiment/"
               helm-version: "v3"
               chkk-access-token: $CHKK_ACCESS_TOKEN
-              continue-on-error: false
+              continue-on-error: true
               show-diff: false
               chart-parameters: "--set filterText=ChampionsLeague100 --set resourceGroup=Euro2021"
        
