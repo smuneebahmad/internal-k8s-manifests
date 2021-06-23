@@ -1,0 +1,928 @@
+---
+# Source: coba/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: RELEASE-NAME-service-account
+  namespace: default
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::494305121106:role/default-RELEASE-NAME-service-role
+---
+# Source: coba/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: coba-api
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: coba-api-80
+    protocol: TCP
+    name: coba-api
+  - port: 8080
+    targetPort: coba-api-8080
+    protocol: TCP
+    name: coba-api-2
+  selector:
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+---
+# Source: coba/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-api
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+spec:
+  # Time to wait after seeing pod becoming healthy
+  # and proceeding to rolling update
+  minReadySeconds: 60
+  # Timeout for deployment state
+  progressDeadlineSeconds: 600
+  # Available rollback history
+  revisionHistoryLimit: 20
+  strategy:
+    rollingUpdate:
+      # Setting maxSurge to 100% is equivalent to a blue/green deployment.
+      # The Deployment controller first scales the new version up to 100% of the old version.
+      # Once the new version is healthy, it immediately scales the old version down to 0%.
+      maxSurge: 25%
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: RELEASE-NAME-default
+      app.kubernetes.io/name: RELEASE-NAME
+  template:
+    metadata:
+      annotations:
+        ad.datadoghq.com/coba-app.logs: '[{"source": "php", "service": "coba-api"}]'
+        ad.datadoghq.com/coba-web.logs: '[{"source": "nginx", "service": "coba-api"}]'
+        eks.amazonaws.com/role-arn: arn:aws:iam::494305121106:role/default--service-role
+      labels:
+        helm.sh/chart: coba-0.1.0
+        app.kubernetes.io/instance: RELEASE-NAME-default
+        app.kubernetes.io/name: RELEASE-NAME
+        aboutyou.cloud/account: cm-mt1-p
+        aboutyou.cloud/cloud-product: checkout
+        aboutyou.cloud/environment: 
+        aboutyou.cloud/generated-by: Helm
+        aboutyou.cloud/system: RELEASE-NAME
+        aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+        aboutyou.cloud/tenant-key: newhorizon
+        aboutyou.cloud/tenant-short-key: default
+        app.kubernetes.io/component: checkout
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/part-of: core
+        tags.datadoghq.com/env: 
+        tags.datadoghq.com/service: coba
+        tags.datadoghq.com/version: "build-3506-latest"
+        tags.datadoghq.com/tenant-short-key: default
+        tags.datadoghq.com/tenant-key: newhorizon
+        tags.datadoghq.com/tenant-space: default
+        aboutyou.cloud/service: api
+        aboutyou.cloud/service-name: default-RELEASE-NAME-api
+    spec:
+      nodeSelector:
+        node.aboutyou.cloud/tier: default
+      serviceAccountName: RELEASE-NAME-service-account
+      containers:
+      - name: RELEASE-NAME-app
+        securityContext:
+            {}
+        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: coba-php
+          containerPort: 9000
+          protocol: TCP
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/k8s-check-liveness.app.sh
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+          periodSeconds: 10
+          failureThreshold: 3
+        env:
+        - name: TENANT_ENV
+          value: default
+        - name: APPLICATION_ENV
+          value: production
+        - name: CONTAINER_ROLE
+          value: application
+        - name: API_HOSTNAMES_BABO
+          value: http://bco-co-api
+        - name: API_HOSTNAMES_BAPI
+          value: http://backbone-api/v1
+        - name: API_HOSTNAMES_BASKETAPI
+          value: http://basket-api
+        - name: API_HOSTNAMES_COBA
+          value: http://coba-api:8080
+        - name: API_HOSTNAMES_COFE
+          value: http://cofe-web
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: DD_ENV
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['tags.datadoghq.com/env']
+        - name: DD_SERVICE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['tags.datadoghq.com/service']
+        - name: DD_SERVICE_MAPPING
+          value: pdo:coba-rds,redis:coba-ec,elasticsearch:coba-es,guzzle:coba-guzzle,curl:coba-curl
+        - name: DD_VERSION
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['tags.datadoghq.com/version']
+        resources:
+          limits:
+            cpu: 3072m
+            memory: 5Gi
+          requests:
+            cpu: 2048m
+            memory: 4Gi
+        volumeMounts:
+        - name: coba-config
+          mountPath: /run/secrets/coba-config
+          readOnly: true
+        - name: coba-infra
+          mountPath: /run/secrets/coba-infra
+          readOnly: true
+        - name: coba-misc
+          mountPath: /run/secrets/coba-misc
+          readOnly: true
+      - name: RELEASE-NAME-web
+        securityContext:
+            {}
+        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/nginx:build-3506-latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: coba-api-80
+          containerPort: 80
+          protocol: TCP
+        - name: coba-api-8080
+          protocol: TCP
+          containerPort: 8080
+          protocol: TCP
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/k8s-check-liveness.sh
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 20
+          timeoutSeconds: 1
+          periodSeconds: 60
+          failureThreshold: 3
+        env:
+        - name: NGINX_ACCESS_LOG
+          value: /var/log/nginx/access.log
+        - name: NGINX_ACCESS_LOG_FORMAT
+          value: main
+        - name: NGINX_FPM_HOST
+          value: localhost
+        - name: NGINX_FPM_PORT
+          value: "9000"
+        resources:
+          limits:
+            cpu: 2048m
+            memory: 3Gi
+          requests:
+            cpu: 1024m
+            memory: 2Gi
+      - name: logging-fluentd
+        securityContext:
+            {}
+        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/ops/shared/fluentd:3d042c6e
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 24224
+            protocol: UDP
+        env:
+        - name: INDEX_NAME
+          value: 'checkout.coba.log'
+        - name: NLB_FLUENTD_PORT
+          value: '24224'
+        - name: SECRET_NLB_FLUENTD_ENDPOINT_PATH
+          value: /run/secrets/coba-logging/NLB_FLUENTD_ENDPOINT
+        resources:
+          limits:
+            cpu: 512m
+            memory: 2Gi
+          requests:
+            cpu: 256m
+            memory: 1Gi
+        volumeMounts:
+        - name: coba-logging
+          mountPath: /run/secrets/coba-logging
+          readOnly: true
+      volumes:
+      - name: coba-config
+        secret:
+          secretName: coba-config
+      - name: coba-infra
+        secret:
+          secretName: coba-infra
+      - name: coba-misc
+        secret:
+          secretName: coba-misc
+      - name: coba-logging
+        secret:
+          secretName: coba-logging
+---
+# Source: coba/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-worker1
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: RELEASE-NAME-default
+      app.kubernetes.io/name: RELEASE-NAME
+  template:
+    metadata:
+      annotations:
+        ad.datadoghq.com/RELEASE-NAME-worker1.logs: '[{"source": "php", "service": "coba-worker1"}]'
+        "helm.sh/hook": post-install
+        "helm.sh/hook-weight": "1"
+      labels:
+        helm.sh/chart: coba-0.1.0
+        app.kubernetes.io/instance: RELEASE-NAME-default
+        app.kubernetes.io/name: RELEASE-NAME
+        aboutyou.cloud/account: cm-mt1-p
+        aboutyou.cloud/cloud-product: checkout
+        aboutyou.cloud/environment: 
+        aboutyou.cloud/generated-by: Helm
+        aboutyou.cloud/system: RELEASE-NAME
+        aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+        aboutyou.cloud/tenant-key: newhorizon
+        aboutyou.cloud/tenant-short-key: default
+        app.kubernetes.io/component: checkout
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/part-of: core
+        tags.datadoghq.com/env: 
+        tags.datadoghq.com/service: coba
+        tags.datadoghq.com/version: "build-3506-latest"
+        tags.datadoghq.com/tenant-short-key: default
+        tags.datadoghq.com/tenant-key: newhorizon
+        tags.datadoghq.com/tenant-space: default
+        aboutyou.cloud/service: worker
+        aboutyou.cloud/service-name: default-RELEASE-NAME-worker
+    spec:
+      nodeSelector:
+        node.aboutyou.cloud/tier: worker
+      serviceAccountName: RELEASE-NAME-service-account
+      initContainers:
+      - name: boot-delay
+        image: busybox:1.28
+        command: ['sh', '-c', "sleep 90"]
+      containers:
+      - name: RELEASE-NAME-worker1
+        securityContext:
+            {}
+        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/k8s-check-liveness.worker.sh
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+          periodSeconds: 10
+          failureThreshold: 3
+        env:
+        - name: TENANT_ENV
+          value: default
+        - name: APPLICATION_ENV
+          value: production
+        - name: CONTAINER_ROLE
+          value: worker1
+        - name: API_HOSTNAMES_BABO
+          value: http://bco-co-api
+        - name: API_HOSTNAMES_BAPI
+          value: http://backbone-api/v1
+        - name: API_HOSTNAMES_BASKETAPI
+          value: http://basket-api
+        - name: API_HOSTNAMES_COBA
+          value: http://coba-api:8080
+        - name: API_HOSTNAMES_COFE
+          value: http://cofe-web
+        resources:
+          limits:
+            cpu: 3072m
+            memory: 5Gi
+          requests:
+            cpu: 2048m
+            memory: 4Gi
+        volumeMounts:
+        - name: coba-config
+          mountPath: /run/secrets/coba-config
+          readOnly: true
+        - name: coba-infra
+          mountPath: /run/secrets/coba-infra
+          readOnly: true
+      volumes:
+      - name: coba-config
+        secret:
+          secretName: coba-config
+      - name: coba-infra
+        secret:
+          secretName: coba-infra
+      - name: coba-misc
+        secret:
+          secretName: coba-misc
+---
+# Source: coba/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-worker2
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: RELEASE-NAME-default
+      app.kubernetes.io/name: RELEASE-NAME
+  template:
+    metadata:
+      annotations:
+        ad.datadoghq.com/coba-worker2.logs: '[{"source": "php", "service": "coba-worker2"}]'
+        "helm.sh/hook": post-install
+        "helm.sh/hook-weight": "2"
+      labels:
+        helm.sh/chart: coba-0.1.0
+        app.kubernetes.io/instance: RELEASE-NAME-default
+        app.kubernetes.io/name: RELEASE-NAME
+        aboutyou.cloud/account: cm-mt1-p
+        aboutyou.cloud/cloud-product: checkout
+        aboutyou.cloud/environment: 
+        aboutyou.cloud/generated-by: Helm
+        aboutyou.cloud/system: RELEASE-NAME
+        aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+        aboutyou.cloud/tenant-key: newhorizon
+        aboutyou.cloud/tenant-short-key: default
+        app.kubernetes.io/component: checkout
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/part-of: core
+        tags.datadoghq.com/env: 
+        tags.datadoghq.com/service: coba
+        tags.datadoghq.com/version: "build-3506-latest"
+        tags.datadoghq.com/tenant-short-key: default
+        tags.datadoghq.com/tenant-key: newhorizon
+        tags.datadoghq.com/tenant-space: default
+        aboutyou.cloud/service: worker
+        aboutyou.cloud/service-name: default-RELEASE-NAME-worker
+    spec:
+      nodeSelector:
+        node.aboutyou.cloud/tier: worker
+      serviceAccountName: RELEASE-NAME-service-account
+      initContainers:
+      - name: boot-delay
+        image: busybox:1.28
+        command: ['sh', '-c', "sleep 90"]
+      containers:
+      - name: RELEASE-NAME-worker2
+        securityContext:
+            {}
+        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/k8s-check-liveness.worker.sh
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+          periodSeconds: 10
+          failureThreshold: 3
+        env:
+        - name: TENANT_ENV
+          value: default
+        - name: APPLICATION_ENV
+          value: production
+        - name: CONTAINER_ROLE
+          value: worker2
+        - name: API_HOSTNAMES_BABO
+          value: http://bco-co-api
+        - name: API_HOSTNAMES_BAPI
+          value: http://backbone-api/v1
+        - name: API_HOSTNAMES_BASKETAPI
+          value: http://basket-api
+        - name: API_HOSTNAMES_COBA
+          value: http://coba-api:8080
+        - name: API_HOSTNAMES_COFE
+          value: http://cofe-web
+        resources:
+          limits:
+            cpu: 3072m
+            memory: 5Gi
+          requests:
+            cpu: 2048m
+            memory: 4Gi
+        volumeMounts:
+        - name: coba-config
+          mountPath: /run/secrets/coba-config
+          readOnly: true
+        - name: coba-infra
+          mountPath: /run/secrets/coba-infra
+          readOnly: true
+      volumes:
+      - name: coba-config
+        secret:
+          secretName: coba-config
+      - name: coba-infra
+        secret:
+          secretName: coba-infra
+      - name: coba-misc
+        secret:
+          secretName: coba-misc
+---
+# Source: coba/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: RELEASE-NAME-worker3
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: RELEASE-NAME-default
+      app.kubernetes.io/name: RELEASE-NAME
+  template:
+    metadata:
+      annotations:
+        ad.datadoghq.com/coba-worker3.logs: '[{"source": "php", "service": "coba-worker3"}]'
+        "helm.sh/hook": post-install
+        "helm.sh/hook-weight": "3"
+      labels:
+        helm.sh/chart: coba-0.1.0
+        app.kubernetes.io/instance: RELEASE-NAME-default
+        app.kubernetes.io/name: RELEASE-NAME
+        aboutyou.cloud/account: cm-mt1-p
+        aboutyou.cloud/cloud-product: checkout
+        aboutyou.cloud/environment: 
+        aboutyou.cloud/generated-by: Helm
+        aboutyou.cloud/system: RELEASE-NAME
+        aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+        aboutyou.cloud/tenant-key: newhorizon
+        aboutyou.cloud/tenant-short-key: default
+        app.kubernetes.io/component: checkout
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/part-of: core
+        tags.datadoghq.com/env: 
+        tags.datadoghq.com/service: coba
+        tags.datadoghq.com/version: "build-3506-latest"
+        tags.datadoghq.com/tenant-short-key: default
+        tags.datadoghq.com/tenant-key: newhorizon
+        tags.datadoghq.com/tenant-space: default
+        aboutyou.cloud/service: worker
+        aboutyou.cloud/service-name: default-RELEASE-NAME-worker
+    spec:
+      nodeSelector:
+        node.aboutyou.cloud/tier: worker
+      serviceAccountName: RELEASE-NAME-service-account
+      initContainers:
+      - name: boot-delay111
+        image: busybox:1.28
+        command: ['sh', '-c', "sleep 90"]
+      containers:
+      - name: RELEASE-NAME-worker3
+        securityContext:
+            {}
+        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/k8s-check-liveness.worker.sh
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+          periodSeconds: 10
+          failureThreshold: 3
+        env:
+        - name: TENANT_ENV
+          value: default
+        - name: APPLICATION_ENV
+          value: production
+        - name: CONTAINER_ROLE
+          value: worker3
+        - name: API_HOSTNAMES_BABO
+          value: http://bco-co-api
+        - name: API_HOSTNAMES_BAPI
+          value: http://backbone-api/v1
+        - name: API_HOSTNAMES_BASKETAPI
+          value: http://basket-api
+        - name: API_HOSTNAMES_COBA
+          value: http://coba-api:8080
+        - name: API_HOSTNAMES_COFE
+          value: http://cofe-web
+        resources:
+          limits:
+            cpu: 3072m
+            memory: 5Gi
+          requests:
+            cpu: 2048m
+            memory: 4Gi
+        volumeMounts:
+        - name: coba-config
+          mountPath: /run/secrets/coba-config
+          readOnly: true
+        - name: coba-infra
+          mountPath: /run/secrets/coba-infra
+          readOnly: true
+      volumes:
+      - name: coba-config
+        secret:
+          secretName: coba-config
+      - name: coba-infra
+        secret:
+          secretName: coba-infra
+
+
+
+...
+---
+# Source: coba/templates/autoscaling.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: RELEASE-NAME
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: RELEASE-NAME-api
+  minReplicas: 1
+  maxReplicas: 50
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 60
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 60
+---
+# Source: coba/templates/jobs.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: RELEASE-NAME-migrations
+  labels:
+    helm.sh/chart: coba-0.1.0
+    app.kubernetes.io/instance: RELEASE-NAME-default
+    app.kubernetes.io/name: RELEASE-NAME
+    aboutyou.cloud/account: cm-mt1-p
+    aboutyou.cloud/cloud-product: checkout
+    aboutyou.cloud/environment: 
+    aboutyou.cloud/generated-by: Helm
+    aboutyou.cloud/system: RELEASE-NAME
+    aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+    aboutyou.cloud/tenant-key: newhorizon
+    aboutyou.cloud/tenant-short-key: default
+    app.kubernetes.io/component: checkout
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: core
+    tags.datadoghq.com/env: 
+    tags.datadoghq.com/service: coba
+    tags.datadoghq.com/version: "build-3506-latest"
+    tags.datadoghq.com/tenant-short-key: default
+    tags.datadoghq.com/tenant-key: newhorizon
+    tags.datadoghq.com/tenant-space: default
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 3
+  template:
+    metadata:
+      annotations:
+        ad.datadoghq.com/coba-migrations.logs: '[{"source": "php", "service": "coba-migrations"}]'
+        "helm.sh/hook": pre-install
+        "helm.sh/hook-weight": "-1"
+        # "helm.sh/hook-delete-policy": hook-succeeded
+      labels:
+        helm.sh/chart: coba-0.1.0
+        app.kubernetes.io/instance: RELEASE-NAME-default
+        app.kubernetes.io/name: RELEASE-NAME
+        aboutyou.cloud/account: cm-mt1-p
+        aboutyou.cloud/cloud-product: checkout
+        aboutyou.cloud/environment: 
+        aboutyou.cloud/generated-by: Helm
+        aboutyou.cloud/system: RELEASE-NAME
+        aboutyou.cloud/system-instance-key: default-RELEASE-NAME
+        aboutyou.cloud/tenant-key: newhorizon
+        aboutyou.cloud/tenant-short-key: default
+        app.kubernetes.io/component: checkout
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/part-of: core
+        tags.datadoghq.com/env: 
+        tags.datadoghq.com/service: coba
+        tags.datadoghq.com/version: "build-3506-latest"
+        tags.datadoghq.com/tenant-short-key: default
+        tags.datadoghq.com/tenant-key: newhorizon
+        tags.datadoghq.com/tenant-space: default
+        aboutyou.cloud/service: api
+        aboutyou.cloud/service-name: default-RELEASE-NAME-api
+    spec:
+      serviceAccountName: RELEASE-NAME-service-account
+      restartPolicy: OnFailure
+      containers:
+      - name: RELEASE-NAME-migrations
+        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: TENANT_ENV
+          value: default
+        - name: APPLICATION_ENV
+          value: production
+        - name: CONTAINER_ROLE
+          value: migrations
+        - name: API_HOSTNAMES_BABO
+          value: http://bco-co-api
+        - name: API_HOSTNAMES_BAPI
+          value: http://backbone-api/v1
+        - name: API_HOSTNAMES_BASKETAPI
+          value: http://basket-api
+        - name: API_HOSTNAMES_COBA
+          value: http://coba-api:8080
+        - name: API_HOSTNAMES_COFE
+          value: http://cofe-web
+        - name: DD_AGENT_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+        - name: DD_ENV
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['tags.datadoghq.com/env']
+        - name: DD_SERVICE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['tags.datadoghq.com/service']
+        - name: DD_SERVICE_MAPPING
+          value: pdo:coba-rds,redis:coba-ec,elasticsearch:coba-es,guzzle:coba-guzzle,curl:coba-curl
+        - name: DD_VERSION
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['tags.datadoghq.com/version']
+        resources:
+          limits:
+            cpu: 3072m
+            memory: 5Gi
+          requests:
+            cpu: 2048m
+            memory: 4Gi
+        volumeMounts:
+        - name: coba-config
+          mountPath: /run/secrets/coba-config
+          readOnly: true
+        - name: coba-infra
+          mountPath: /run/secrets/coba-infra
+          readOnly: true
+        - name: coba-misc
+          mountPath: /run/secrets/coba-misc
+          readOnly: true
+      volumes:
+      - name: coba-config
+        secret:
+          secretName: coba-config
+      - name: coba-infra
+        secret:
+          secretName: coba-infra
+      - name: coba-misc
+        secret:
+          secretName: coba-misc
+
+...
+---
+# Source: coba/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: RELEASE-NAME
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: default-internal
+  rules:
+  - host: coba-api.default.cm-mt1-p.aws.collins.kg
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: coba-api
+            port:
+              number: 80
+---
+# Source: coba/templates/securitygroup.yaml
+# TODO: commented out because https://aboutyou.atlassian.net/browse/OPS-18437 is postponed
+---
+# Source: coba/templates/secrets.yaml
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: coba-config
+  namespace: default
+spec:
+  backendType: systemManager
+  data:
+  - path: /co/coba/default/config
+    recursive: true
+---
+# Source: coba/templates/secrets.yaml
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: coba-infra
+  namespace: default
+spec:
+  backendType: systemManager
+  data:
+  - path: /aycp/coba/default/infra
+    recursive: true
+---
+# Source: coba/templates/secrets.yaml
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: coba-misc
+  namespace: default
+spec:
+  backendType: systemManager
+  data:
+  - key: /platform/cloud-hosted-zone/domain_name
+    name: DOMAIN_NAME
+---
+# Source: coba/templates/secrets.yaml
+apiVersion: kubernetes-client.io/v1
+kind: ExternalSecret
+metadata:
+  name: coba-logging
+  namespace: default
+spec:
+  backendType: systemManager
+  data:
+  - key: /aycp/coba/default/infra/NLB_FLUENTD_ENDPOINT
+    name: NLB_FLUENTD_ENDPOINT
