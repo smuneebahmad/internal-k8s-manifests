@@ -5,6 +5,16 @@ metadata:
     test: liveness
   name: liveness-exec
 spec:
+  initContainers:
+      - name: boot-delay
+        image: busybox:1.28
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "64Mi"
+          requests:
+            cpu: "500m"
+            memory: "64Mi"
   containers:
   - name: liveness
     image: k8s.gcr.io/busybox
