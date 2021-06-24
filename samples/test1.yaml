@@ -67,51 +67,6 @@ spec:
       - name: boot-delay111
         image: busybox:1.28
         command: ['sh', '-c', "sleep 90"]
-      containers:
-      - name: RELEASE-NAME-worker3
-        securityContext:
-            {}
-        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          exec:
-            command:
-            - /usr/local/bin/k8s-check-liveness.worker.sh
-          initialDelaySeconds: 10
-          timeoutSeconds: 2
-          periodSeconds: 10
-          failureThreshold: 3
-        env:
-        - name: TENANT_ENV
-          value: default
-        - name: APPLICATION_ENV
-          value: production
-        - name: CONTAINER_ROLE
-          value: worker3
-        - name: API_HOSTNAMES_BABO
-          value: http://bco-co-api
-        - name: API_HOSTNAMES_BAPI
-          value: http://backbone-api/v1
-        - name: API_HOSTNAMES_BASKETAPI
-          value: http://basket-api
-        - name: API_HOSTNAMES_COBA
-          value: http://coba-api:8080
-        - name: API_HOSTNAMES_COFE
-          value: http://cofe-web
-        resources:
-          limits:
-            cpu: 3072m
-            memory: 5Gi
-          requests:
-            cpu: 2048m
-            memory: 4Gi
-        volumeMounts:
-        - name: coba-config
-          mountPath: /run/secrets/coba-config
-          readOnly: true
-        - name: coba-infra
-          mountPath: /run/secrets/coba-infra
-          readOnly: true
       volumes:
       - name: coba-config
         secret:
@@ -163,27 +118,6 @@ spec:
         # "helm.sh/hook-delete-policy": hook-succeeded
       labels:
         helm.sh/chart: coba-0.1.0
-        app.kubernetes.io/instance: RELEASE-NAME-default
-        app.kubernetes.io/name: RELEASE-NAME
-        test.cloud/account: cm-mt1-p
-        test.cloud/cloud-product: checkout
-        test.cloud/environment: 
-        test.cloud/generated-by: Helm
-        test.cloud/system: RELEASE-NAME
-        test.cloud/system-instance-key: default-RELEASE-NAME
-        test.cloud/tenant-key: newhorizon
-        test.cloud/tenant-short-key: default
-        app.kubernetes.io/component: checkout
-        app.kubernetes.io/managed-by: Helm
-        app.kubernetes.io/part-of: core
-        tags.datadoghq.com/env: 
-        tags.datadoghq.com/service: coba
-        tags.datadoghq.com/version: "build-3506-latest"
-        tags.datadoghq.com/tenant-short-key: default
-        tags.datadoghq.com/tenant-key: newhorizon
-        tags.datadoghq.com/tenant-space: default
-        test.cloud/service: api
-        test.cloud/service-name: default-RELEASE-NAME-api
     spec:
       serviceAccountName: RELEASE-NAME-service-account
       restartPolicy: OnFailure
@@ -191,41 +125,6 @@ spec:
       - name: RELEASE-NAME-migrations
         image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
         imagePullPolicy: IfNotPresent
-        env:
-        - name: TENANT_ENV
-          value: default
-        - name: APPLICATION_ENV
-          value: production
-        - name: CONTAINER_ROLE
-          value: migrations
-        - name: API_HOSTNAMES_BABO
-          value: http://bco-co-api
-        - name: API_HOSTNAMES_BAPI
-          value: http://backbone-api/v1
-        - name: API_HOSTNAMES_BASKETAPI
-          value: http://basket-api
-        - name: API_HOSTNAMES_COBA
-          value: http://coba-api:8080
-        - name: API_HOSTNAMES_COFE
-          value: http://cofe-web
-        - name: DD_AGENT_HOST
-          valueFrom:
-            fieldRef:
-              fieldPath: status.hostIP
-        - name: DD_ENV
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.labels['tags.datadoghq.com/env']
-        - name: DD_SERVICE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.labels['tags.datadoghq.com/service']
-        - name: DD_SERVICE_MAPPING
-          value: pdo:coba-rds,redis:coba-ec,elasticsearch:coba-es,guzzle:coba-guzzle,curl:coba-curl
-        - name: DD_VERSION
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.labels['tags.datadoghq.com/version']
         resources:
           limits:
             cpu: 3072m
@@ -237,19 +136,7 @@ spec:
         - name: coba-config
           mountPath: /run/secrets/coba-config
           readOnly: true
-        - name: coba-infra
-          mountPath: /run/secrets/coba-infra
-          readOnly: true
-        - name: coba-misc
-          mountPath: /run/secrets/coba-misc
-          readOnly: true
       volumes:
       - name: coba-config
         secret:
           secretName: coba-config
-      - name: coba-infra
-        secret:
-          secretName: coba-infra
-      - name: coba-misc
-        secret:
-          secretName: coba-misc
