@@ -79,64 +79,30 @@ spec:
 
 ...
 ---
-# Source: coba/templates/jobs.yaml
-apiVersion: batch/v1
-kind: Job
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: Deployment
 metadata:
-  name: RELEASE-NAME-migrations
-  labels:
-    helm.sh/chart: coba-0.1.0
-    app.kubernetes.io/instance: RELEASE-NAME-default
-    app.kubernetes.io/name: RELEASE-NAME
-    test.cloud/account: cm-mt1-p
-    test.cloud/cloud-product: checkout
-    test.cloud/environment: 
-    test.cloud/generated-by: Helm
-    test.cloud/system: RELEASE-NAME
-    test.cloud/system-instance-key: default-RELEASE-NAME
-    test.cloud/tenant-key: newhorizon
-    test.cloud/tenant-short-key: default
-    app.kubernetes.io/component: checkout
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/part-of: core
-    tags.datadoghq.com/env: 
-    tags.datadoghq.com/service: coba
-    tags.datadoghq.com/version: "build-3506-latest"
-    tags.datadoghq.com/tenant-short-key: default
-    tags.datadoghq.com/tenant-key: newhorizon
-    tags.datadoghq.com/tenant-space: default
+  name: redis-master
 spec:
-  completions: 1
-  parallelism: 1
-  backoffLimit: 3
+  selector:
+    matchLabels:
+      app: redis
+      role: master
+      tier: backend
+  replicas: 1
   template:
     metadata:
-      annotations:
-        ad.datadoghq.com/coba-migrations.logs: '[{"source": "php", "service": "coba-migrations"}]'
-        "helm.sh/hook": pre-install
-        "helm.sh/hook-weight": "-1"
-        # "helm.sh/hook-delete-policy": hook-succeeded
       labels:
-        helm.sh/chart: coba-0.1.0
+        app: redis
+        role: master
+        tier: backend
     spec:
-      serviceAccountName: RELEASE-NAME-service-account
-      restartPolicy: OnFailure
       containers:
-      - name: RELEASE-NAME-migrations
-        image: 736335200020.dkr.ecr.eu-west-1.amazonaws.com/co/coba-api/php:build-3506-latest
-        imagePullPolicy: IfNotPresent
+      - name: master
+        image: k8s.gcr.io/redis:e2e  # or just image: redis
         resources:
-          limits:
-            cpu: 3072m
-            memory: 5Gi
           requests:
-            cpu: 2048m
-            memory: 4Gi
-        volumeMounts:
-        - name: coba-config
-          mountPath: /run/secrets/coba-config
-          readOnly: true
-      volumes:
-      - name: coba-config
-        secret:
-          secretName: coba-config
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6379
