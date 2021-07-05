@@ -36,5 +36,3 @@ services:
         - kong-net
       ports:
         - 80:80
-      expose:
-        - 80
