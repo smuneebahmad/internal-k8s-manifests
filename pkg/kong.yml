@@ -1,0 +1,21 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+  - name: k8s-manifests
+    url: http://host.docker.internal/k8s-manifests
+    routes:
+    - name: k8s-manifests-post-route
+      methods:
+        - POST
+      paths:
+        - /k8s-manifests
+
+  - name: checks
+    url: http://host.docker.internal/checks
+    routes:
+    - name: checks-route
+      methods:
+        - GET
+      paths:
+        - /checks
