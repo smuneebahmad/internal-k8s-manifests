@@ -5,7 +5,7 @@ networks:
 services:
     kong:
       image: kong:2.4.1-alpine
-      container_name: kong_nodb
+      container_name: kong-api-gw
       networks:
         - kong-net
       environment:
@@ -30,8 +30,8 @@ services:
         - 8444:8444
  
     chkk-service:
-      image: 033121473579.dkr.ecr.us-west-2.amazonaws.com/chkk-demo:v0.2
-      container_name: chkk-service-container-test
+      image: public.ecr.aws/i1v3p4q2/chkk-engine:v0.1
+      container_name: chkk-engine
       networks:
         - kong-net
       ports:
