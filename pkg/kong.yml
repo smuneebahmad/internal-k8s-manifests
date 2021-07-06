@@ -14,7 +14,7 @@ services:
     - name: custom-auth
       enabled: true
       config:
-        introspection_endpoint: https://zmfrpw8tx8.execute-api.us-east-1.amazonaws.com/beta/introspect
+        introspection_endpoint: https://api.chkk.dev/introspect
         token_header: Authorization
 
   - name: checks
@@ -29,5 +29,5 @@ services:
     - name: custom-auth
       enabled: true
       config:
-        introspection_endpoint: https://zmfrpw8tx8.execute-api.us-east-1.amazonaws.com/beta/introspect
+        introspection_endpoint: https://api.chkk.dev/introspect
         token_header: Authorization
