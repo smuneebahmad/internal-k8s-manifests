@@ -10,6 +10,12 @@ services:
         - POST
       paths:
         - /k8s-manifests
+    plugins:
+    - name: custom-auth
+      enabled: true
+      config:
+        introspection_endpoint: https://zmfrpw8tx8.execute-api.us-east-1.amazonaws.com/beta/introspect
+        token_header: Authorization
 
   - name: checks
     url: http://localhost:5050/checks
@@ -19,3 +25,9 @@ services:
         - GET
       paths:
         - /checks
+    plugins:
+    - name: custom-auth
+      enabled: true
+      config:
+        introspection_endpoint: https://zmfrpw8tx8.execute-api.us-east-1.amazonaws.com/beta/introspect
+        token_header: Authorization
