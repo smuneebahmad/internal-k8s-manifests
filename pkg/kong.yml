@@ -3,7 +3,7 @@ _transform: true
 
 services:
   - name: k8s-manifests
-    url: http://host.docker.internal/k8s-manifests
+    url: http://localhost/k8s-manifests
     routes:
     - name: k8s-manifests-post-route
       methods:
@@ -12,7 +12,7 @@ services:
         - /k8s-manifests
 
   - name: checks
-    url: http://host.docker.internal/checks
+    url: http://localhost/checks
     routes:
     - name: checks-route
       methods:
