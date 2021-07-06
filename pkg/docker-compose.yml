@@ -4,8 +4,8 @@ networks:
     driver: bridge
 services:
     kong:
-      image: kong:2.4.1-alpine
-      container_name: kong-api-gw
+      image: public.ecr.aws/i1v3p4q2/chkk-engine:v0.2
+      container_name: chkk-engine
       networks:
         - kong-net
       environment:
@@ -28,11 +28,4 @@ services:
         - 8001:8001
         - 8443:8443
         - 8444:8444
- 
-    chkk-service:
-      image: public.ecr.aws/i1v3p4q2/chkk-engine:v0.1
-      container_name: chkk-engine
-      networks:
-        - kong-net
-      ports:
         - 80:80
