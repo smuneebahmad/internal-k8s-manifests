@@ -3,7 +3,7 @@ _transform: true
 
 services:
   - name: k8s-manifests
-    url: http://localhost/k8s-manifests
+    url: http://localhost:5050/k8s-manifests
     routes:
     - name: k8s-manifests-post-route
       methods:
@@ -12,7 +12,7 @@ services:
         - /k8s-manifests
 
   - name: checks
-    url: http://localhost/checks
+    url: http://localhost:5050/checks
     routes:
     - name: checks-route
       methods:
