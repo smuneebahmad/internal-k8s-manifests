@@ -4,7 +4,7 @@ networks:
     driver: bridge
 services:
     kong:
-      image: public.ecr.aws/i1v3p4q2/chkk-engine:v0.3
+      image: public.ecr.aws/i1v3p4q2/chkk-engine:v0.4
       container_name: chkk-engine
       networks:
         - kong-net
@@ -15,7 +15,8 @@ services:
         KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
         KONG_PROXY_ERROR_LOG: "/dev/stderr"
         KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
-        KONG_PROXY_ACCESS_LOG: "/dev/stdout"   
+        KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+        KONG_PLUGINS: bundled,custom-auth
       healthcheck:
         test: ["CMD", "kong", "health"]
         interval: 5s
@@ -23,6 +24,8 @@ services:
         retries: 15
       volumes:
         - ./kong.yml:/etc/kong/kong.yaml
+        - ./schema.lua:/usr/local/share/lua/5.1/kong/plugins/custom-auth/schema.lua
+        - ./handler.lua:/usr/local/share/lua/5.1/kong/plugins/custom-auth/handler.lua
       ports:
         - 8000:8000
         - 8001:8001
