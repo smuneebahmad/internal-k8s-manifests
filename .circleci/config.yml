@@ -6,11 +6,11 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/buildpack-deps:xenial-curl-dind ##jpetazzo/dind ###docker:19.03.0-dind ####cimg/base:stable
+      - image: ##jpetazzo/dind ###docker:19.03.0-dind ####cimg/base:stable
     steps:
         - checkout
-#         - setup_remote_docker:
-#             version: 19.03.13
+        - setup_remote_docker:
+            version: 19.03.13
 #         - chkk-orb/scan_directory:
 #               k8s-manifests-directory: "samples/"
 #               chkk-access-token: $CHKK_ACCESS_TOKEN
