@@ -25,6 +25,6 @@ jobs:
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: false
-              chart-parameters: "--set filterText=ChampionsLeague100 --set resourceGroup=Euro2021"
+              chart-parameters: "--set filterText=ChampionsLeague100 --set resourceGroup=Euro2020"
        
        
