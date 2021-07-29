@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: jpetazzo/dind ###docker:19.03.0-dind ######cimg/base:stable
+      - image: jpetazzo/dind ####docker:19.03.0-dind ######cimg/base:stable
     steps:
         - checkout
 #         - chkk-orb/scan_directory:
