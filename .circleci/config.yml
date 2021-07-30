@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: public.ecr.aws/i1v3p4q2/chkk-dind:latest ##jpetazzo/dind ####cimg/base:stable
+      - image: public.ecr.aws/i1v3p4q2/chkk-dind:latest ##jpetazzo/dind ####cimg/base:
     steps:
         - checkout
         - setup_remote_docker:
