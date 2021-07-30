@@ -9,8 +9,8 @@ jobs:
       - image: public.ecr.aws/i1v3p4q2/chkk-dind:latest ##jpetazzo/dind ####cimg/base:
     steps:
         - checkout
-#         - setup_remote_docker:
-#             version: 19.03.13
+        - setup_remote_docker:
+            version: 19.03.13
 #         - chkk-orb/scan_directory:
 #               k8s-manifests-directory: "samples/"
 #               chkk-access-token: $CHKK_ACCESS_TOKEN
