@@ -15,23 +15,25 @@ jobs:
         - checkout
 #         - setup_remote_docker:
 #             version: 19.03.13
-#         - chkk-orb/scan_directory:
-#               k8s-manifests-directory: "samples/"
-#               chkk-access-token: $CHKK_ACCESS_TOKEN
-#               continue-on-error: true
-#               show-diff: false
+        - chkk-orb/scan_directory:
+              k8s-manifests-directory: "samples/"
+              chkk-access-token: $CHKK_ACCESS_TOKEN
+              continue-on-error: true
+              show-diff: false
+              standalone-mode: false
         - chkk-orb/scan_file:
               k8s-manifest: "kubernetes-sample-manifest.yaml"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: false
               standalone-mode: true
-#         - chkk-orb/scan_chart:
-#               helm-chart: "helm-charts/twitter-sentiment/"
-#               helm-version: "v3"
-#               chkk-access-token: $CHKK_ACCESS_TOKEN
-#               continue-on-error: true
-#               show-diff: false
-#               chart-parameters: "--set filterText=ChampionsLeague100 --set resourceGroup=Euro2020"
+        - chkk-orb/scan_chart:
+              helm-chart: "helm-charts/twitter-sentiment/"
+              helm-version: "v3"
+              chkk-access-token: $CHKK_ACCESS_TOKEN
+              continue-on-error: true
+              show-diff: false
+              chart-parameters: "--set filterText=ChampionsLeague100 --set resourceGroup=Euro2020"
+              standalone-mode: false
        
        
