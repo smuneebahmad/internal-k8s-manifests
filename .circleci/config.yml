@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/base
+      - image: cimg/base:2021.07
 #     docker:
 #       - image: public.ecr.aws/i1v3p4q2/chkk-dind:latest ##jpetazzo/dind ##kjk##cimg/base:
     steps:
