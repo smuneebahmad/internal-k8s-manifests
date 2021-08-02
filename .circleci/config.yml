@@ -29,7 +29,7 @@ jobs:
               standalone-mode: false
         - chkk-orb/scan_chart:
               helm-chart: "helm-charts/twitter-sentiment/"
-              helm-version: "v3"
+              helm-version: "v2"
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: false
