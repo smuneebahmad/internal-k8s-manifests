@@ -20,7 +20,7 @@ jobs:
               chkk-access-token: $CHKK_ACCESS_TOKEN
               continue-on-error: true
               show-diff: false
-              standalone-mode: true
+              standalone-mode: false
         - chkk-orb/scan_file:
               k8s-manifest: "kubernetes-sample-manifest.yaml"
               chkk-access-token: $CHKK_ACCESS_TOKEN
