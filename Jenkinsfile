@@ -15,7 +15,7 @@ pipeline {
         stage("Chkk") {
             steps {
                sh '''#!/bin/bash
-               VERSION=$(curl -sS https://get.chkk.dev/cli/latest.txt)
+               VERSION=$(curl -sS https://get.chkk.dev/cli/latest-beta.txt)
                curl -Lo chkk https://get.chkk.dev/${VERSION}/chkk-darwin-amd64;
                export CHKK_ACCESS_TOKEN=$CHKK_ACCESS_TOKEN;
                chmod +x chkk;
