@@ -29,5 +29,9 @@ kind: Service
 metadata:
   name: netcat
 spec:
+  ports:
+  - port: 8080
+    protocol: TCP
   selector:
     app: nc-pod
+    
