@@ -23,7 +23,7 @@ spec:
         image: mongo:4.2
         args:
           - --bind_ip
-          - 0.0.0.0
+          - 127.0.0.1
         resources:
           requests:
             cpu: 100m
