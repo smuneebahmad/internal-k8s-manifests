@@ -17,7 +17,7 @@ spec:
       serviceAccountName: istio-operator
       containers:
         - name: istio-operator
-          image: football.io/united/operator:1.9.0
+          image: docker.io/istio/operator:1.9.0
           command:
           - operator
           - server
