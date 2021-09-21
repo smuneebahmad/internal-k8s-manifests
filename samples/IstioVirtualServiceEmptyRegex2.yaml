@@ -8,7 +8,7 @@ spec:
   http:
   - match:
     - method:
-        regex: ""
+        regex: "test"
       name: 80_default
     route:
     - destination:
