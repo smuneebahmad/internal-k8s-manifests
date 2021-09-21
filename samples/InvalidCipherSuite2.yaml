@@ -18,3 +18,4 @@ spec:
       - ECDHE-ECDSA-AES256-GCM-SHA384
       credentialName: istio-ingressgateway-certs
       mode: SIMPLE
+
