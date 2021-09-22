@@ -12,7 +12,7 @@ spec:
         - kind: Deployment
           name: istiod
           patches:
-          - path: spec.template.spec.containers.[name:discovery].args
+          - path: spec.template.spec.containers.[name:discovery].args.[100]
             value: --grpcAddr=:15020
           - path: spec.template.spec.containers.[name:discovery].ports.[containerPort:15010]
             value:
