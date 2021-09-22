@@ -1,0 +1,44 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:  
+  name: istio-controlplane
+  namespace: istio-system
+spec:
+  components:
+    ingressGateways:
+    - enabled: true
+      k8s:
+        hpaSpec:
+          minReplicas: 3
+        service:
+          externalIPs: 10.80.36.171
+          ports:
+          - name: status-port
+            nodePort: 32562
+            port: 15021
+            protocol: TCP
+            targetPort: 15021
+          - name: http2
+            nodePort: 30623
+            port: 80
+            protocol: TCP
+            targetPort: 8080
+          - name: https
+            nodePort: 32013
+            port: 443
+            protocol: TCP
+            targetPort: 8443
+      name: istio-ingressgateway
+    pilot:
+      enabled: true
+      k8s:
+        hpaSpec:
+          minReplicas: 3
+  meshConfig:
+    defaultConfig:
+      gatewayTopology:
+        numTrustedProxies: 1
+      tracing:
+        sampling: 3
+    enableTracing: true
+  profile: default
