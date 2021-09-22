@@ -1,0 +1,28 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istiod
+  namespace: istio-system
+spec:
+  components:
+    pilot:
+      enabled: true
+      k8s:
+        overlays:
+        - kind: Deployment
+          name: istiod
+          patches:
+          - path: spec.template.spec.containers.[name:discovery].args
+            value: --grpcAddr=:15020
+          - path: spec.template.spec.containers.[name:discovery].ports.[containerPort:15010]
+            value:
+              containerPort: 15020
+              protocol: TCP
+        - kind: Service
+          name: istiod
+          patches:
+          - path: spec.ports.[port:15010]
+            value:
+              port: 15020
+              name: grpc-xds
+              protocol: TCP
