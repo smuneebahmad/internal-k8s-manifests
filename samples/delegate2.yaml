@@ -1,0 +1,43 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: torchserve-transformer-transformer-default-ingress
+  namespace: default
+spec:
+  gateways:
+  - knative-serving/knative-ingress-gateway
+  hosts:
+  - torchserve-transformer-transformer-default.default.example.com
+  - match:
+    - authority:
+        prefix: torchserve-transformer-transformer-default.default.example.com
+      gateways:
+      - knative-serving/knative-ingress-gateway
+    retries: {}
+    route:
+    - destination:
+        host: torchserve-transformer-transformer-default-00001.default.svc.cluster.local
+        port:
+          number: 80
+      headers:
+        request:
+          set:
+            Knative-Serving-Namespace: default
+            Knative-Serving-Revision: torchserve-transformer-transformer-default-00001
+      weight: 100
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: torchserve-transformer
+  namespace: default
+spec:
+  gateways:
+  - knative-serving/knative-ingress-gateway
+  hosts:
+  - torchserve-transformer.default.example.com
+  http:
+  - delegate:
+      name: torchserve-transformer-transformer-default-ingress
+      namespace: default
