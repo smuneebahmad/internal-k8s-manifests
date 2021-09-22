@@ -11,8 +11,7 @@ spec:
         hpaSpec:
           minReplicas: 3
         service:
-          externalIPs:
-          - 10.80.36.171
+          externalIPs: 10.80.36.171
           ports:
           - name: status-port
             nodePort: 32562
