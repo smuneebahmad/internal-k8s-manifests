@@ -13,7 +13,7 @@ spec:
     locality: us-east-2
     ports:
       http: 15443
-    weight: 4294967295
+    weight: 4294967290
   - address: 10.0.0.3 
     locality: us-east-2
     ports:
