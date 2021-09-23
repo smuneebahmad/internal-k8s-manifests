@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ratings-route
+spec:
+  hosts:
+  - echo.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: echo.default.svc.cluster.local
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+      retryOn: gateway-error,connect-failure,refused-stream
+      retryRemoteLocalities: true
