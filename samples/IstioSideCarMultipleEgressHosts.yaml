@@ -6,5 +6,4 @@ metadata:
 spec:
   egress:
   - hosts:
-    - '*/*'
     - istio-system/*
