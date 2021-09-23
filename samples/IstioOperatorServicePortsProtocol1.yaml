@@ -1,0 +1,39 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: istio-with-quic
+  namespace: istio-system
+spec:
+  meshConfig:
+    accessLogFile: /dev/stdout
+  hub: localhost:5000
+  tag: istio-quic
+  profile: minimal
+  components:
+    ingressGateways:
+    - name: bookinfo-ingress
+      namespace: bookinfo
+      enabled: true
+      label:
+        gateway: bookinfo
+        quic: enabled
+      k8s:
+        service:
+          type: LoadBalancer
+          ports:
+          - name: https-tcp
+            port: 443
+            targetPort: 8443
+            protocol: TCP
+          - name: http3-quic
+            port: 443
+            targetPort: 8443
+            protocol: UDP
+  values:
+    global:
+      imagePullPolicy: Always
+      logging:
+        level: "all:debug"
+    pilot:
+      env:
+        PILOT_ENABLE_QUIC_LISTENERS: "true"
