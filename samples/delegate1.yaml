@@ -20,7 +20,6 @@ spec:
         prefix: "/reviews"
     delegate:
         name: reviews
-        namespace: nsB
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
