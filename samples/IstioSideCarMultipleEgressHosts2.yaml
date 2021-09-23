@@ -7,3 +7,4 @@ spec:
   egress:
   - hosts:
     - istio-system/*
+
