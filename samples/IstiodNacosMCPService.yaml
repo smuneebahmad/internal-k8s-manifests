@@ -6,3 +6,4 @@ spec:
     accessLogFile: /dev/stdout
     configSources:
     - address: xds://10.15.4.2:18848
+    - address: k8s://
