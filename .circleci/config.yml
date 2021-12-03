@@ -5,36 +5,46 @@ orbs:
 
 jobs:
   build:
-    machine:
-      image: ubuntu-1604:202007-01
-#     docker:
+#     machine:
+#       image: ubuntu-1604:202007-01
+    docker:
+      - image: cimg/base:stable
 #       - image: cimg/base:2021.07
 #     docker:
 #       - image: public.ecr.aws/i1v3p4q2/chkk-dind:latest #/dind #cimg/base#
     steps:
         - checkout
+        - chkk/configure:
+            cluster-id: circleci-example
+        - run:
+            command: |
+              curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 &&
+              chmod 700 get_helm.sh &&
+              ./get_helm.sh &&
+              helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx &&
+              helm template ingress-nginx/ingress-nginx --version 3.35.0  --post-renderer=./chkk-post-renderer
 #         - setup_remote_docker:
 #             version: 19.03.13
-        - chkk-orb/scan_directory:
-              k8s-manifests-directory: "samples/"
-              chkk-access-token: $CHKK_ACCESS_TOKEN
-              continue-on-error: true
-              show-diff: false
-              standalone-mode: false
-        - chkk-orb/scan_file:
-              k8s-manifest: "kubernetes-sample-manifest.yaml"
-              chkk-access-token: $CHKK_ACCESS_TOKEN
-              continue-on-error: true
-              show-diff: false
-              standalone-mode: false
-              suppressions: "chkk-k8s-45"
-        - chkk-orb/scan_chart:
-              helm-chart: "helm-charts/twitter-sentiment/"
-              helm-version: "v2"
-              chkk-access-token: $CHKK_ACCESS_TOKEN
-              continue-on-error: true
-              show-diff: false
-              chart-parameters: "--set filterText=ChampionsLeague100 --set resourceGroup=Euro2020"
-              standalone-mode: true
+#         - chkk-orb/scan_directory:
+#               k8s-manifests-directory: "samples/"
+#               chkk-access-token: $CHKK_ACCESS_TOKEN
+#               continue-on-error: true
+#               show-diff: false
+#               standalone-mode: false
+#         - chkk-orb/scan_file:
+#               k8s-manifest: "kubernetes-sample-manifest.yaml"
+#               chkk-access-token: $CHKK_ACCESS_TOKEN
+#               continue-on-error: true
+#               show-diff: false
+#               standalone-mode: false
+#               suppressions: "chkk-k8s-45"
+#         - chkk-orb/scan_chart:
+#               helm-chart: "helm-charts/twitter-sentiment/"
+#               helm-version: "v2"
+#               chkk-access-token: $CHKK_ACCESS_TOKEN
+#               continue-on-error: true
+#               show-diff: false
+#               chart-parameters: "--set filterText=ChampionsLeague100 --set resourceGroup=Euro2020"
+#               standalone-mode: true
        
        
