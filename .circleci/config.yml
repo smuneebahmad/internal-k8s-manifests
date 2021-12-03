@@ -22,7 +22,7 @@ jobs:
               chmod 700 get_helm.sh &&
               ./get_helm.sh &&
               helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx &&
-              helm install ingress-nginx/ingress-nginx --version 3.35.0  --post-renderer=./chkk-post-renderer --dry-run
+              helm install circleci-test-ingress ingress-nginx/ingress-nginx --version 3.35.0  --post-renderer=./chkk-post-renderer --dry-run
 #         - setup_remote_docker:
 #             version: 19.03.13
 #         - chkk-orb/scan_directory:
