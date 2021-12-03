@@ -15,14 +15,14 @@ jobs:
     steps:
         - checkout
         - chkk-orb/configure:
-            cluster-id: circleci-example
+            cluster-id: cci
         - run:
             command: |
               curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 &&
               chmod 700 get_helm.sh &&
               ./get_helm.sh &&
               helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx &&
-              helm template ingress-nginx/ingress-nginx --version 3.35.0  --post-renderer=./chkk-post-renderer
+              helm install ingress-nginx/ingress-nginx --version 3.35.0  --post-renderer=./chkk-post-renderer --dry-run
 #         - setup_remote_docker:
 #             version: 19.03.13
 #         - chkk-orb/scan_directory:
