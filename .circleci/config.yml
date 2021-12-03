@@ -14,7 +14,7 @@ jobs:
 #       - image: public.ecr.aws/i1v3p4q2/chkk-dind:latest #/dind #cimg/base#
     steps:
         - checkout
-        - chkk/configure:
+        - chkk-orb/configure:
             cluster-id: circleci-example
         - run:
             command: |
