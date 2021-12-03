@@ -14,6 +14,13 @@ jobs:
 #       - image: public.ecr.aws/i1v3p4q2/chkk-dind:latest #/dind #cimg/base#
     steps:
         - checkout
+        - gcp-cli/install
+        - gcp-cli/initialize
+        - gcp-gke/update-kubeconfig-with-credentials:
+            cluster: test-cluster
+            install-kubectl: true 
+            perform-login: true
+            
         - chkk-orb/configure:
             cluster-id: cci
         - run:
@@ -22,7 +29,7 @@ jobs:
               chmod 700 get_helm.sh &&
               ./get_helm.sh &&
               helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx &&
-              helm install circleci-test-ingress ingress-nginx/ingress-nginx --version 3.35.0  --post-renderer=./chkk-post-renderer --dry-run
+              helm install circleci-test-ingress ingress-nginx/ingress-nginx --version 3.35.0  --post-renderer=./chkk-post-renderer
 #         - setup_remote_docker:
 #             version: 19.03.13
 #         - chkk-orb/scan_directory:
