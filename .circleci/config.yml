@@ -20,7 +20,7 @@ jobs:
         - gcp-cli/install
         - gcp-cli/initialize
         - gcp-gke/update-kubeconfig-with-credentials:
-            cluster: test-cluster
+            cluster: test-cluster-1
             install-kubectl: true 
             perform-login: true
             
